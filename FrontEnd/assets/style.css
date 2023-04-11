@@ -79,6 +79,45 @@ h2 {
 	color: var(--main-color)
 }
 
+/*--------------------------------- Barre admin ---------------------------------  */
+.admin-bar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 60px;
+	width: 100%;
+	margin: 0;
+	background-color: black;
+	color: white;
+	gap: 20px;
+}
+
+.edition-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 16px;
+}
+
+.bx-edit {
+	font-size: 25px;
+}
+
+.publish-button {
+	display: flex;
+	align-items: center;
+	height: 60%;
+	padding: 0 20px;
+	border-radius: 60px;
+	background-color: white;
+	color: black;
+	font-weight: 700;
+}
+
+.hidden {
+	display: none !important;
+}
+
 /*--------------------------------- Header ---------------------------------  */
 header {
 	display: flex;
@@ -144,8 +183,29 @@ nav li img:hover {
 	gap: 75px;
 }
 
-#introduction figure {
+.picture-container {
+	display: flex;
+	flex-direction: column;
 	width: 50%;
+}
+
+.picture-container .edition-group {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	margin-top: 15px;
+}
+
+.picture-container i {
+	font-size: 21px;
+}
+
+.picture-container p {
+	font-size: 14px;
+}
+
+#introduction figure {
+	width: 100%;
 }
 
 #introduction img {
@@ -162,7 +222,7 @@ nav li img:hover {
 	margin-bottom: 2rem;
 }
 
-#introduction p {
+#introduction article p {
 	width: 100%;
 	margin-bottom: 1rem;
 	line-height: 16px;
@@ -175,9 +235,27 @@ nav li img:hover {
 	align-items: center;
 }
 
+.mes-projets {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	margin-bottom: 40px;
+}
+
+.mes-projets .edition-group {
+	cursor: pointer;
+}
+
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 3rem;
+}
+
+.mes-projets i {
+	font-size: 21px;
+}
+
+.mes-projets p {
+	font-size: 14px;
 }
 
 /*------- Filters -------*/
@@ -185,7 +263,6 @@ nav li img:hover {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	margin-bottom: 50px;
 }
 
 .filters-category li {
@@ -222,6 +299,7 @@ nav li img:hover {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+	margin-top: 50px;
 }
 
 .gallery img {
@@ -357,4 +435,9 @@ footer a:hover {
    text-underline-offset: 2px;
    text-decoration-thickness: 0.05em;
    font-size: 14px;
+   transition: all .3s;
+}
+
+#form-connexion a:hover {
+   font-weight: 800;
 }
