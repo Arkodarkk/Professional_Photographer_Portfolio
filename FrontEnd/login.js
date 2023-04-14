@@ -1,7 +1,5 @@
-//------------------------------------ LOGIN -------------------------------
 // Récupération du formulaire dans le DOM
 const FORM = document.getElementById("login-form");
-
 
 // Écouteur d'événement à la soumission du formulaire
 FORM.addEventListener("submit", (e) => {
@@ -10,6 +8,8 @@ FORM.addEventListener("submit", (e) => {
    // Récupération des valeurs des inputs du formulaire
    let emailLogin = document.getElementById("email").value;
    let passwordLogin = document.getElementById("password").value;
+
+   // Création de l'objet qui constituera le body du fetch
    let payload = {
       email: emailLogin,
       password: passwordLogin
@@ -23,12 +23,19 @@ FORM.addEventListener("submit", (e) => {
       },
       body: JSON.stringify(payload), 
    })
-   .then((response) => response.json())
+   .then((response) => {
+      if (!response.ok) {// Test validité des identifiants renseignés par l'utilisateur
+         throw new Error("Email ou mot de passe incorrect");
+      }
+      return response.json();
+   })
    .then((data) => {
          // Stockage du token dans le session storage
-         sessionStorage.tokensAdmin = JSON.stringify(data);
+         sessionStorage.tokenAdmin = JSON.stringify(data);
          window.location.href="./index.html";
    })
-   .catch((error) => console.log(error))
+   .catch((error) => {
+      // Affichage de l'alerte en cas d'erreur
+      alert(error.message);
+   });
 });
-            
