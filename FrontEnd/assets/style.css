@@ -391,6 +391,50 @@ input[type="submit"]:active {
 	transform: translateY(2px);
 }
 
+/*--------------------------------- Modale ---------------------------------  */
+.modal {
+	display: none;
+	opacity: 0; 
+	transition: all 100ms linear;
+ }
+ 
+ /* applique une couleur de fond à 70% d'opacité derrière la modale */
+ body.modal-open {
+	background-color: rgba(0, 0, 0, 0);
+	transition: all 100ms linear;
+ }
+ 
+ /* positionne la modale au centre de la page */
+ .modal-content {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 630px;
+	height: 670px;
+	border-radius: 10px;
+	background-color: white;
+	z-index: 9999;
+	padding: 20px;
+ }
+ 
+ /* positionne le bouton de fermeture en haut à drotie de la modale */
+ .close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-size: 32px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 250ms cubic-bezier(0.55, 0.06, 0.68, 0.19);
+ }
+
+ .close:hover {
+	transform: rotate(90deg);
+	text-shadow: 7px 0px 5px rgba(0,0,0,0.3), 
+    0px -4px 10px rgba(255,255,255,0.3);
+ }
+
 /*--------------------------------- Footer ---------------------------------  */
 footer {
 	display: flex;

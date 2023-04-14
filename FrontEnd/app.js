@@ -66,3 +66,51 @@ filterButtons.forEach(button => {
 window.addEventListener("load", () => {
 displayWorks();
 });
+
+//------------------------------------ Modale -----------------------------------------
+
+// Récupération d'éléments dans le DOM
+const editWork = document.querySelector('#edit-works');
+const modal = document.querySelector('#work-modal');
+const modalContent = document.querySelector('.modal-content');
+const close = document.querySelector('.close');
+const body = document.querySelector('body');
+
+editWork.addEventListener('click', function() {
+  // affiche la modale et ajoute une classe au body pour appliquer un fond semi-transparent
+  modal.style.display = 'block';
+  body.classList.add('modal-open');
+  setTimeout(function() {
+    modal.style.opacity = '1';
+    body.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+}, 0);
+});
+
+close.addEventListener('click', function() {
+  // cache la modale et enlève la classe ajoutée au body
+  modal.style.opacity = '0';
+  body.style.backgroundColor = "rgba(0, 0, 0, 0)";
+  setTimeout(function() {
+    modal.style.display = 'none';
+    body.classList.remove('modal-open');
+  }, 250);
+});
+
+window.addEventListener('click', function(event) {
+  // cache la modale et enlève la classe ajoutée au body si l'utilisateur clique en dehors de la modale
+  if (event.target != modalContent && event.target != modal) {
+    modal.style.opacity = '0';
+    body.style.backgroundColor = "rgba(0, 0, 0, 0)";
+  setTimeout(function() {
+    modal.style.display = 'none';
+    body.classList.remove('modal-open');
+  }, 100);
+  }
+});
+
+document.getElementById('edit-works').addEventListener('click', function(event) {
+    // Empêche la propagation de l'événement click
+    event.stopPropagation();
+  });
+
+  
