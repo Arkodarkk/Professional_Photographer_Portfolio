@@ -468,7 +468,7 @@ input[type="submit"]:active {
  }
 
  /* Postionne les icônes de gestion des travaux en haut à droite de chaque image */
- #gallery-modal .modal-pic-icons {
+ .modal-pic-icons {
 	position: absolute;
 	top: 6px;
 	right: 6px;
@@ -479,15 +479,19 @@ input[type="submit"]:active {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-left: 3px;
  }
 
- #gallery-modal .modal-pic-icons .bx {
+ .move-icon {
+	right: 26px;
+	display: none;
+ }
+
+ #gallery-modal .bx {
 	color: white;
 	font-size: 11px;
  }
 
- #gallery-modal .modal-pic-icons:hover {
+ .modal-pic-icons:hover {
 	background-color: rgb(97, 97, 97);
  }
 

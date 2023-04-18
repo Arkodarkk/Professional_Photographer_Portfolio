@@ -76,6 +76,8 @@ const modalContent = document.querySelector('.modal-content');
 const close = document.querySelector('.close');
 const galleryModal = document.getElementById("gallery-modal");
 const addPicture = document.getElementById("add-picture");
+let modalPicture;
+
 
 // affiche la modale et applique un background semi-transparent sur les élements derrière
 editWork.addEventListener('click', function() {
@@ -114,15 +116,50 @@ const displayWorksInModal = function (categoryId = null) {
       .then(response => response.json())
       .then(data => {
           let html = data.map(work => `
-              <figure data-id="${work.id}">
+              <figure class="gallery-modal-pic" data-id="${work.id}">
                   <img src="${work.imageUrl}" alt="${work.title}">
-                  <div class="modal-pic-icons"><i class='bx bxs-trash'></i></div>
+                  <div class="modal-pic-icons move-icon"><i class='bx bx-move'></i></div>
+                  <div class="modal-pic-icons trash-icon"><i class='bx bxs-trash'></i></div>
                   <figcaption><a href="#">éditer</a></figcaption>
               </figure>
           `).join('');
           galleryModal.innerHTML = html;
+          modalPicture = document.querySelectorAll('.gallery-modal-pic');
       });
 };
 
 // Affiche tous les travaux dans la modale au chargement de la page
 displayWorksInModal();
+
+//Affiche l'icône de déplacement au survol de la souris d'une image
+galleryModal.addEventListener('mouseover', function(event) {
+  const figure = event.target.closest('figure');
+  if (figure) {
+    figure.querySelector('.move-icon').style.display = 'flex';
+  }
+});
+
+
+//Masque l'icône de déplacement au survol de la souris d'une image
+galleryModal.addEventListener('mouseout', function(event) {
+  const figure = event.target.closest('figure');
+  if (figure) {
+    figure.querySelector('.move-icon').style.display = 'none';
+  }
+});
+
+
+// Fonction qui supprime une image de la galerie et de la base de données
+async function deleteImage(event) {
+  const imageWrapper = event.target.parentNode;
+  const id = imageWrapper.dataset.id;
+  await fetch(`http://localhost:5678/api/works/${id}`, { method: 'DELETE' });
+  imageWrapper.remove();
+}
+
+// Ajout de l'événement de clic sur l'icône bxs-trash pour supprimer l'image
+gallery.addEventListener('click', event => {
+  if (event.target.classList.contains('bxs-trash')) {
+    deleteImage(event);
+  }
+});
