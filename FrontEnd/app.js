@@ -22,7 +22,7 @@ document.getElementById("logout").addEventListener("click", () => {
 //------------------------------------ FILTRES -----------------------------------------
 
 // Récupération d'éléments dans le DOM
-const GALLERY = document.querySelector(".gallery");
+const gallery = document.querySelector(".gallery");
 let filterTous = document.getElementById("all-cat-button");
 let filterButtons = document.querySelectorAll(".filter-button");
 
@@ -46,7 +46,7 @@ const displayWorks = function (categoryId = null) {
                     <figcaption>${work.title}</figcaption>
                 </figure>
             `).join('');
-            GALLERY.innerHTML = html;
+            gallery.innerHTML = html;
         });
 };
 
@@ -74,43 +74,55 @@ const editWork = document.querySelector('#edit-works');
 const modal = document.querySelector('#work-modal');
 const modalContent = document.querySelector('.modal-content');
 const close = document.querySelector('.close');
-const body = document.querySelector('body');
+const galleryModal = document.getElementById("gallery-modal");
+const addPicture = document.getElementById("add-picture");
 
+// affiche la modale et applique un background semi-transparent sur les élements derrière
 editWork.addEventListener('click', function() {
-  // affiche la modale et ajoute une classe au body pour appliquer un fond semi-transparent
   modal.style.display = 'block';
-  body.classList.add('modal-open');
   setTimeout(function() {
     modal.style.opacity = '1';
-    body.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
 }, 0);
 });
 
+// cache la modale et supprime le background semi-transparent
 close.addEventListener('click', function() {
-  // cache la modale et enlève la classe ajoutée au body
   modal.style.opacity = '0';
-  body.style.backgroundColor = "rgba(0, 0, 0, 0)";
   setTimeout(function() {
     modal.style.display = 'none';
-    body.classList.remove('modal-open');
   }, 250);
 });
 
-window.addEventListener('click', function(event) {
-  // cache la modale et enlève la classe ajoutée au body si l'utilisateur clique en dehors de la modale
-  if (event.target != modalContent && event.target != modal) {
+// cache la modale et supprime le background semi-transparent si l'utilisateur clique en dehors de la modale
+modal.addEventListener('click', function(event) {
+  if (event.target != modalContent) {
     modal.style.opacity = '0';
-    body.style.backgroundColor = "rgba(0, 0, 0, 0)";
   setTimeout(function() {
     modal.style.display = 'none';
-    body.classList.remove('modal-open');
   }, 100);
   }
 });
 
+// Empêche la propagation de l'événement click sur le bouton modifier les projets
 document.getElementById('edit-works').addEventListener('click', function(event) {
-    // Empêche la propagation de l'événement click
     event.stopPropagation();
   });
 
-  
+// Fonction pour afficher tous les travaux au sein de la modale
+const displayWorksInModal = function (categoryId = null) {
+  fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+          let html = data.map(work => `
+              <figure data-id="${work.id}">
+                  <img src="${work.imageUrl}" alt="${work.title}">
+                  <div class="modal-pic-icons"><i class='bx bxs-trash'></i></div>
+                  <figcaption><a href="#">éditer</a></figcaption>
+              </figure>
+          `).join('');
+          galleryModal.innerHTML = html;
+      });
+};
+
+// Affiche tous les travaux dans la modale au chargement de la page
+displayWorksInModal();

@@ -367,7 +367,8 @@ input[type="text"] {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+input[type="submit"],
+.modal-buttons button {
 	font-family: 'Syne';
    font-size: 14px;
 	font-weight: 700;
@@ -381,7 +382,8 @@ input[type="submit"] {
 	transition: all .2s ease-in;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+.modal-buttons button:hover {
 	background-color:var(--button-hover-color);
 	cursor: pointer;
 	transform: translateY(-2px);
@@ -393,29 +395,36 @@ input[type="submit"]:active {
 
 /*--------------------------------- Modale ---------------------------------  */
 .modal {
+	position: fixed;
+	margin: 0;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
 	display: none;
 	opacity: 0; 
 	transition: all 100ms linear;
- }
- 
- /* applique une couleur de fond à 70% d'opacité derrière la modale */
- body.modal-open {
-	background-color: rgba(0, 0, 0, 0);
-	transition: all 100ms linear;
+	background-color: rgba(0, 0, 0, 0.4);
+	z-index: 9999;
  }
  
  /* positionne la modale au centre de la page */
  .modal-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 630px;
-	height: 670px;
+	width: 17.2%;
+	min-width: 380px;
+	height: 620px;
 	border-radius: 10px;
 	background-color: white;
 	z-index: 9999;
-	padding: 20px;
+	padding: 60px 4% 50px 4%;
  }
  
  /* positionne le bouton de fermeture en haut à drotie de la modale */
@@ -433,6 +442,78 @@ input[type="submit"]:active {
 	transform: rotate(90deg);
 	text-shadow: 7px 0px 5px rgba(0,0,0,0.3), 
     0px -4px 10px rgba(255,255,255,0.3);
+ }
+
+ .modal-content h2 {
+	font-family: 'Work Sans' ;
+	font-size: 26px;
+	font-weight: 400;
+	color: black;
+ }
+
+ /* Configure l'affichage des travaux avec display grid */
+ #gallery-modal {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	row-gap: 10px;
+	column-gap: 6px;
+	padding: 40px 0 47px 0;
+	border-bottom: 1px solid #b3b3b3;
+ }
+
+ #gallery-modal figure {
+	position: relative;
+	cursor: pointer;
+ }
+
+ /* Postionne les icônes de gestion des travaux en haut à droite de chaque image */
+ #gallery-modal .modal-pic-icons {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	width: 17px;
+	height: 17px;
+	background-color: black;
+	border-radius: 2px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 3px;
+ }
+
+ #gallery-modal .modal-pic-icons .bx {
+	color: white;
+	font-size: 11px;
+ }
+
+ #gallery-modal .modal-pic-icons:hover {
+	background-color: rgb(97, 97, 97);
+ }
+
+ #gallery-modal figcaption {
+	font-size: 12px;
+ }
+
+ #gallery-modal img {
+	width: 100%;
+ }
+
+ .modal-buttons {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+ }
+
+ .modal-buttons button {
+	border: none;
+	width: 230px;
+ }
+
+ .modal-buttons a {
+	display: inline-block;
+	color: #D65353;
+	;
  }
 
 /*--------------------------------- Footer ---------------------------------  */
