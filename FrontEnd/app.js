@@ -1,8 +1,8 @@
 //---------------------------------- Mode admin ---------------------------------------
 
 // Récupération dans le DOM des élements admin et non-admin
-let adminElements = document.querySelectorAll(".admin");
-let notAdminElements = document.querySelectorAll(".not-admin");
+const adminElements = document.querySelectorAll(".admin");
+const notAdminElements = document.querySelectorAll(".not-admin");
 
 // Modification de la page si l'admin connecté
 window.addEventListener("load", () => {
@@ -23,11 +23,11 @@ document.getElementById("logout").addEventListener("click", () => {
 
 // Récupération d'éléments dans le DOM
 const gallery = document.querySelector(".gallery");
-let filterTous = document.getElementById("all-cat-button");
-let filterButtons = document.querySelectorAll(".filter-button");
+const filterTous = document.getElementById("all-cat-button");
+const filterButtons = document.querySelectorAll(".filter-button");
 
 // Récupération de l'url de l'API pour accéder aux travaux
-let apiUrl = "http://localhost:5678/api/works";
+const apiUrl = "http://localhost:5678/api/works";
 
 // Fonction pour afficher les travaux en fonction de leur catégorie
 const displayWorks = function (categoryId = null) {
@@ -76,7 +76,6 @@ const modalContent = document.querySelector('.modal-content');
 const close = document.querySelector('.close');
 const galleryModal = document.getElementById("gallery-modal");
 const addPicture = document.getElementById("add-picture");
-let modalPicture;
 
 
 // affiche la modale et applique un background semi-transparent sur les élements derrière
@@ -87,28 +86,39 @@ editWork.addEventListener('click', function() {
 }, 0);
 });
 
-// cache la modale et supprime le background semi-transparent
-close.addEventListener('click', function() {
+// Ferme la modale et supprime le background semi-transparent
+function closeModal() {
   modal.style.opacity = '0';
   setTimeout(function() {
     modal.style.display = 'none';
   }, 250);
+}
+
+// Ferme la modale au clic sur le bouton "close"
+close.addEventListener('click', function (event) {
+  event.stopPropagation();
+  closeModal()
 });
 
-// cache la modale et supprime le background semi-transparent si l'utilisateur clique en dehors de la modale
+// Ferme la modale lorsque l'utilisateur clique en dehors de celle-ci
 modal.addEventListener('click', function(event) {
   if (event.target != modalContent) {
-    modal.style.opacity = '0';
-  setTimeout(function() {
-    modal.style.display = 'none';
-  }, 100);
+    closeModal();
   }
 });
 
-// Empêche la propagation de l'événement click sur le bouton modifier les projets
-document.getElementById('edit-works').addEventListener('click', function(event) {
+// Empêche la propagation de l'événement click sur le bouton "Modifier mes projets"
+editWork.addEventListener('click', function(event) {
     event.stopPropagation();
   });
+
+// Empêche la propagation de l'événement click sur le contenu de la modale
+modalContent.addEventListener('click', function(event) {
+  event.stopPropagation();
+});
+
+
+// ---------------------------------- Galerie modale -------------------------------
 
 // Fonction pour afficher tous les travaux au sein de la modale
 const displayWorksInModal = function (categoryId = null) {
@@ -124,7 +134,6 @@ const displayWorksInModal = function (categoryId = null) {
               </figure>
           `).join('');
           galleryModal.innerHTML = html;
-          modalPicture = document.querySelectorAll('.gallery-modal-pic');
       });
 };
 
@@ -139,8 +148,7 @@ galleryModal.addEventListener('mouseover', function(event) {
   }
 });
 
-
-//Masque l'icône de déplacement au survol de la souris d'une image
+//Masque l'icône de déplacement lorsque la souris ne survole plus l'image
 galleryModal.addEventListener('mouseout', function(event) {
   const figure = event.target.closest('figure');
   if (figure) {
@@ -148,18 +156,40 @@ galleryModal.addEventListener('mouseout', function(event) {
   }
 });
 
+//---------------------------------- Suppression projet ----------------------------
 
-// Fonction qui supprime une image de la galerie et de la base de données
-async function deleteImage(event) {
-  const imageWrapper = event.target.parentNode;
-  const id = imageWrapper.dataset.id;
-  await fetch(`http://localhost:5678/api/works/${id}`, { method: 'DELETE' });
-  imageWrapper.remove();
-}
+// Récupération du token pour autorisation de suppression et d'ajout de projets
+let tokenAdmin = JSON.parse(sessionStorage.getItem("tokenAdmin"));
+let token = tokenAdmin.token;
 
-// Ajout de l'événement de clic sur l'icône bxs-trash pour supprimer l'image
-gallery.addEventListener('click', event => {
+// Supprime une image de la galerie et de la base de données
+galleryModal.addEventListener('click', function(event) {
+  // Vérifier si l'élément cliqué est une icône "poubelle"
   if (event.target.classList.contains('bxs-trash')) {
-    deleteImage(event);
+    // Récupère l'élément figure parent correspondant
+    const figure = event.target.closest('figure');
+    // Récupère l'ID de l'élément figure à supprimer
+    const workId = figure.dataset.id;
+    // Envoie une requête DELETE pour supprimer l'élément
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(function(response) {
+      console.log(response);
+      if (response.ok) {
+        // Affiche les projets mis à jour dans la modale
+        displayWorksInModal();
+      } else {
+        console.error('Erreur lors de la suppression de l\'élément');
+      }
+    })
+    .catch(function(error) {
+      console.error('Erreur lors de la suppression de l\'élément', error);
+    });
   }
 });
+
+//---------------------------------- Ajout projet ----------------------------

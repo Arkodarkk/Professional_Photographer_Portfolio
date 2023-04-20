@@ -451,6 +451,8 @@ input[type="submit"]:active {
 	color: black;
  }
 
+ /* -------------------------- modale galerie------------------------------- */
+
  /* Configure l'affichage des travaux avec display grid */
  #gallery-modal {
 	display: grid;
@@ -519,6 +521,10 @@ input[type="submit"]:active {
 	color: #D65353;
 	;
  }
+
+ /* -------------------------- modale Ajout projet------------------------------- */
+
+
 
 /*--------------------------------- Footer ---------------------------------  */
 footer {
