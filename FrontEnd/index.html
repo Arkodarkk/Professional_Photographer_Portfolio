@@ -96,7 +96,7 @@
 		</section>
 <!--------------------------------- Fenêtre modale --------------------------------->
 		<section id="work-modal" class="modal">
-			<div class="modal-content photo-gallery">
+			<div class="modal-content delete-work">
 				<span class="close">&times;</span>
 				<h2>Galerie photo</h2>
 				<div id="gallery-modal">
@@ -105,6 +105,24 @@
 				<div class="modal-buttons">
 					<button id="add-picture">Ajouter une photo</button>
 					<a href="" class="delete-gallery">Supprimer la galerie</a>
+				</div>
+			</div>
+			<div class="modal-content add-work hidden">
+				<span class="back">&#8592;</span>
+				<span class="close">&times;</span>
+				<h2>Ajout photo</h2>
+				<div id="add-pic-container">
+					<div id="new-pic-wrapper">
+						<div class="image-icon"><i class='bx bx-image'></i></div>
+						<div class="input-file-container">
+							<label for="uploadfile" class="label-file"> + Ajouter photo</label>
+							<input type="file" name="uploadfile" id="uploadfile" accept="image/png, image/jpg" size="4194304">
+							<p>jpg, png : 4mo max</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-buttons">
+					<button id="validate" disabled>Valider</button>
 				</div>
 			</div>
 		</section>

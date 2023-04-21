@@ -458,10 +458,12 @@ input[type="submit"]:active {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(3, 1fr);
+	/* grid-auto-rows: 120px; */
 	row-gap: 10px;
 	column-gap: 6px;
 	padding: 40px 0 47px 0;
 	border-bottom: 1px solid #b3b3b3;
+	overflow-y: auto;
  }
 
  #gallery-modal figure {
@@ -516,6 +518,15 @@ input[type="submit"]:active {
 	width: 230px;
  }
 
+ .modal-buttons button:disabled {
+	background-color: #A7A7A7;
+ }
+
+ .modal-buttons button:disabled:hover {
+	transform: translateY(0);
+	cursor: default;
+ }
+
  .modal-buttons a {
 	display: inline-block;
 	color: #D65353;
@@ -523,8 +534,76 @@ input[type="submit"]:active {
  }
 
  /* -------------------------- modale Ajout projet------------------------------- */
+.hidden {
+	display: none;
+}
 
+.back {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	font-size: 32px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: all 250ms linear;
+}
 
+.back:hover {
+	color: grey;
+	text-shadow: 1px 3px 5px rgba(0,0,0,0.3);
+ }
+
+#add-pic-container {
+	background: #E8F1F7;
+	border-radius: 3px;
+	width: 100%;
+	height: 170px;
+}
+
+ #new-pic-wrapper  {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	height: 100%;
+ }
+
+ .image-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+ }
+
+ .bx-image {
+	font-size: 70px;
+	color: #B9C5CC;
+ }
+
+ .input-file-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 7px;
+ }
+
+ .input-file-container p {
+	font-size: 11px;
+ }
+ 
+ .label-file {
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 600;
+	padding: 10px 33px;
+	background: #CBD6DC;
+	color: #306685;
+	border-radius: 50px;
+ }
+ 
+ #uploadfile {
+	display: none;
+ }
 
 /*--------------------------------- Footer ---------------------------------  */
 footer {

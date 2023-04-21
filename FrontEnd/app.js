@@ -73,9 +73,24 @@ displayWorks();
 const editWork = document.querySelector('#edit-works');
 const modal = document.querySelector('#work-modal');
 const modalContent = document.querySelector('.modal-content');
+const modalDeleteWork = document.querySelector(".delete-work");
+const modalAddWork = document.querySelector(".add-work");
 const close = document.querySelector('.close');
+const closeButtons = document.querySelectorAll(".close");
 const galleryModal = document.getElementById("gallery-modal");
 const addPicture = document.getElementById("add-picture");
+
+// Affiche la modale suppression de projet
+const displayModalDeleteWork = () => {
+  modalAddWork.classList.add('hidden');
+  modalDeleteWork.classList.remove('hidden');
+}
+
+// Affiche la modale ajout de projet
+const displayModalAddWork = () => {
+  modalDeleteWork.classList.add('hidden');
+  modalAddWork.classList.remove('hidden');
+}
 
 
 // affiche la modale et applique un background semi-transparent sur les élements derrière
@@ -91,18 +106,21 @@ function closeModal() {
   modal.style.opacity = '0';
   setTimeout(function() {
     modal.style.display = 'none';
+    displayModalDeleteWork();
   }, 250);
 }
 
 // Ferme la modale au clic sur le bouton "close"
-close.addEventListener('click', function (event) {
-  event.stopPropagation();
-  closeModal()
+closeButtons.forEach(button => {
+  button.addEventListener('click', function (event) {
+    event.stopPropagation();
+    closeModal()
+  });
 });
 
 // Ferme la modale lorsque l'utilisateur clique en dehors de celle-ci
 modal.addEventListener('click', function(event) {
-  if (event.target != modalContent) {
+  if (event.target != modalContent && event.target != modalAddWork)  {
     closeModal();
   }
 });
@@ -114,6 +132,10 @@ editWork.addEventListener('click', function(event) {
 
 // Empêche la propagation de l'événement click sur le contenu de la modale
 modalContent.addEventListener('click', function(event) {
+  event.stopPropagation();
+});
+
+modalAddWork.addEventListener('click', function(event) {
   event.stopPropagation();
 });
 
@@ -182,6 +204,8 @@ galleryModal.addEventListener('click', function(event) {
       if (response.ok) {
         // Affiche les projets mis à jour dans la modale
         displayWorksInModal();
+        // Affiche les projets mis à jour sur la page d'accueil
+        displayWorks();
       } else {
         console.error('Erreur lors de la suppression de l\'élément');
       }
@@ -193,3 +217,13 @@ galleryModal.addEventListener('click', function(event) {
 });
 
 //---------------------------------- Ajout projet ----------------------------
+
+// Récupération d'éléments du DOM
+const backButton = document.querySelector(".back");
+const validButton = document.getElementById("validate");
+
+// Bascule l'affichage des deux modales au clic des boutons "Ajouter une photo" et retour
+backButton.addEventListener("click", displayModalDeleteWork);
+addPicture.addEventListener("click", displayModalAddWork);
+
+
