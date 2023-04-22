@@ -534,6 +534,8 @@ input[type="submit"]:active {
  }
 
  /* -------------------------- modale Ajout projet------------------------------- */
+
+ /* ----- Box "Ajouter photo"  ----- */
 .hidden {
 	display: none;
 }
@@ -550,7 +552,11 @@ input[type="submit"]:active {
 
 .back:hover {
 	color: grey;
-	text-shadow: 1px 3px 5px rgba(0,0,0,0.3);
+	/* text-shadow: 1px 3px 5px rgba(0,0,0,0.3); */
+ }
+
+ .add-work > h2 {
+	margin-top: 20px;
  }
 
 #add-pic-container {
@@ -604,6 +610,105 @@ input[type="submit"]:active {
  #uploadfile {
 	display: none;
  }
+
+ #image-preview {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: flex;
+	justify-content: center;
+ }
+
+ #image-preview img {
+	height: 100%;
+ }
+
+ /* ----- Champs titre et catégorie  ----- */
+#form-wrapper {
+	width: 100%;
+}
+
+.add-work .modal-buttons {
+	width: 100%;
+	border-top: 1px solid #b3b3b3;
+}
+
+ #input-pic-title {
+   width: 100%;
+   height: 51px;
+   border: none;
+   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+   margin: 10px 0 20px 0;
+   padding: 20px;
+	box-sizing: border-box;
+ }
+
+#label-pic-title, 
+.cat-wrapper h2 {
+   font-weight: 500;
+	font-size: 14px;
+}
+
+.cat-wrapper {
+	position: relative;
+}
+
+.select-btn {
+   max-width: 100%;
+   height: 51px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+   padding: 20px;
+   margin-top: 10px;
+   cursor: pointer;
+	box-sizing: border-box;
+}
+
+.bx-chevron-down {
+   font-size: 25px;
+   transition: transform 250ms linear;
+}
+
+.cat-wrapper.active .bx-chevron-down {
+   transform: rotate(-180deg);
+}
+
+.select-content {
+   display: none;
+	position: absolute;
+	z-index: 1;
+   width: 100%;
+   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+   margin-top: 10px;
+}
+
+.cat-wrapper.active .select-content {
+   display: block;
+}
+
+ .select-options {
+	position: relative;
+	background-color: rgba(255, 255, 255, 1);
+	box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	overflow: auto;
+	max-height: 150px;
+ }
+
+.select-options li {
+   display: flex;
+   align-items: center;
+   list-style: none;
+   height: 50px;
+   padding-left: 16px;
+}
+
+.select-options li:hover {
+   background-color: #f2f2f2;
+   cursor: pointer;
+}
 
 /*--------------------------------- Footer ---------------------------------  */
 footer {

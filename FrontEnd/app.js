@@ -27,11 +27,13 @@ const filterTous = document.getElementById("all-cat-button");
 const filterButtons = document.querySelectorAll(".filter-button");
 
 // Récupération de l'url de l'API pour accéder aux travaux
-const apiUrl = "http://localhost:5678/api/works";
+const apiWorksUrl = "http://localhost:5678/api/works";
+// Récupération de l'url de l'API pour accéder aux catégories
+const apiCatUrl = "http://localhost:5678/api/categories";
 
 // Fonction pour afficher les travaux en fonction de leur catégorie
 const displayWorks = function (categoryId = null) {
-    fetch(apiUrl)
+    fetch(apiWorksUrl)
         .then(response => response.json())
         .then(data => {
             let filteredWorks;
@@ -79,6 +81,13 @@ const close = document.querySelector('.close');
 const closeButtons = document.querySelectorAll(".close");
 const galleryModal = document.getElementById("gallery-modal");
 const addPicture = document.getElementById("add-picture");
+const imagePreview = document.getElementById('image-preview');
+const newPicWrapper = document.getElementById("new-pic-wrapper");
+const catSelected = document.getElementById("catSelected");
+const inputTitle = document.getElementById('input-pic-title');
+const imageInput = document.getElementById('uploadfile');
+const backButton = document.querySelector(".back");
+const validButton = document.getElementById("validate");
 
 // Affiche la modale suppression de projet
 const displayModalDeleteWork = () => {
@@ -101,12 +110,25 @@ editWork.addEventListener('click', function() {
 }, 0);
 });
 
+// Vide les champs de la modale "Ajout d'un nouveau projet"
+function resetFieldsAddWork() {
+  inputTitle.value = '';
+  catSelected.textContent = '';
+  imageInput.value = '';
+  const img = imagePreview.querySelector("img");
+  URL.revokeObjectURL(img.src);
+  img.src = ""; // Efface l'image de prévisualisation
+  newPicWrapper.classList.remove("hidden"); // Affiche la box de l'input file
+  imagePreview.classList.add("hidden"); // Masque la box de prévisualisation
+}
+
 // Ferme la modale et supprime le background semi-transparent
 function closeModal() {
   modal.style.opacity = '0';
   setTimeout(function() {
     modal.style.display = 'none';
     displayModalDeleteWork();
+    resetFieldsAddWork();
   }, 250);
 }
 
@@ -144,7 +166,7 @@ modalAddWork.addEventListener('click', function(event) {
 
 // Fonction pour afficher tous les travaux au sein de la modale
 const displayWorksInModal = function (categoryId = null) {
-  fetch(apiUrl)
+  fetch(apiWorksUrl)
       .then(response => response.json())
       .then(data => {
           let html = data.map(work => `
@@ -219,11 +241,150 @@ galleryModal.addEventListener('click', function(event) {
 //---------------------------------- Ajout projet ----------------------------
 
 // Récupération d'éléments du DOM
-const backButton = document.querySelector(".back");
-const validButton = document.getElementById("validate");
+const wrapper = document.querySelector(".cat-wrapper"),
+selectBtn = wrapper.querySelector(".select-btn"), 
+options = wrapper.querySelector(".select-options");
+
+// Tableau qui contiendra les objets Categorie (nom et id)
+let catObjects = [];
+// Tableau qui contiendra le nom des catégories
+let categories = [];
+
+// Ajoute chaque catégorie dans le menu déroulant .select-options
+function addCategory() {
+  categories.forEach(category => {
+    const categoryId = catObjects.find(obj => obj.name === category).id;
+     let li = `<li data-id="${categoryId}" onclick="updateName(this)">${category}</li>`;
+     options.insertAdjacentHTML("beforeend", li);
+  });
+}
+
+// Récupère via l'API les données pour remplir les tableaux catObjects et categories
+fetch(apiCatUrl)
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(category => {
+      catObjects.push({ id: category.id, name: category.name });
+    });
+    categories = catObjects.map(category => category.name);
+    addCategory();
+  })
+  .catch(error => console.error(error));
 
 // Bascule l'affichage des deux modales au clic des boutons "Ajouter une photo" et retour
 backButton.addEventListener("click", displayModalDeleteWork);
 addPicture.addEventListener("click", displayModalAddWork);
 
+// Affiche le nom de la catégorie du menu déroulant sélectionnée dans le champ Catégorie
+function updateName(selectedLi) {
+  const category = selectedLi.textContent;
+  const categoryId = selectedLi.getAttribute("data-id"); // Récupère l'ID de la catégorie sélectionnée
+  wrapper.classList.remove("active");
+  catSelected.textContent = category;
+  catSelected.dataset.id = categoryId; // Ajouter l'ID de la catégorie sélectionnée à la propriété dataset de l'élément catSelected
+}
 
+// Affiche ou masque le menu déroulant au clic sur le bouton Select
+selectBtn.addEventListener("click", () => {
+   wrapper.classList.toggle("active");
+});
+
+// Masque le menu déroulant lorsque l'utilisateur clique en dehors du menu déroulant
+document.addEventListener("click", (e) => {
+   wrapper.classList.remove("active");
+})
+
+selectBtn.addEventListener("click", (e) => {
+   e.stopPropagation();
+})
+
+
+// Affiche l'image choisie par l'utilisateur dans la fenêtre de prévisualisation
+imageInput.addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  
+  reader.addEventListener('load', function() {
+    const imageUrl = reader.result;
+    const imageElement = document.createElement('img');
+    imageElement.src = imageUrl;
+
+    // Efface l'image de prévisualisation précédente, s'il y en a une
+    const previousImage = imagePreview.querySelector("img");
+    if (previousImage) {
+      URL.revokeObjectURL(previousImage.src);
+      imagePreview.removeChild(previousImage);
+    }
+    
+    imagePreview.appendChild(imageElement);
+    if (inputTitleValue && inputCatValue && imageInput.files.length > 0) {
+      validButton.disabled = false; // Active le bouton Valider si tous les champs sont remplis
+      console.log(inputFields);
+    } else {
+      validButton.disabled = true;
+    }
+  });
+  reader.readAsDataURL(file);
+  newPicWrapper.classList.add("hidden");// Masque la box de l'input file
+  imagePreview.classList.remove("hidden");// Affiche la box de prévisualisation
+});
+
+// Déclaration des variables pour stocker la valeur des champs Titre et Catégorie
+let inputTitleValue;
+let inputCatValue;
+
+// Récupère la valeur du champ "Titre" au changement d'état de l'input
+inputTitle.addEventListener("change", function() {
+  inputTitleValue = this.value;
+  if (inputTitleValue && inputCatValue && imageInput.files.length > 0) {
+    validButton.disabled = false; // Active le bouton Valider si tous les champs sont remplis
+  } else {
+    validButton.disabled = true;
+  }
+})
+
+// Récupère la valeur du champ "Catégorie" lors de sa sélection
+catSelected.addEventListener("DOMSubtreeModified", function () {
+  inputCatValue = this.textContent;
+  if (inputTitleValue && inputCatValue && imageInput.files.length > 0) {
+    validButton.disabled = false; // Active le bouton Valider si tous les champs sont remplis
+  } else {
+    validButton.disabled = true;
+  }
+})
+
+//---------------------------------- Upload du projet ----------------------------
+
+// Fonction pour upload le nouveau projet
+function uploadProject() {
+  const imageFile = imageInput.files[0]; 
+  const formData = new FormData();
+  formData.append('image', imageFile); 
+  formData.append('title', inputTitle.value); 
+  formData.append('category', catSelected.dataset.id); 
+
+  // Envoi du projet sur le serveur via une requête fetch
+  fetch(apiWorksUrl, {
+    method: 'POST',
+    body: formData,
+    // body: JSON.stringify(data),
+    headers: {
+      // 'Content-Type': "multipart/form-data",
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      displayWorks();
+      displayWorksInModal();
+      closeModal();
+    } else {
+      console.error('Erreur lors de la sauvegarde du projet');
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+};
+
+validButton.addEventListener("click", uploadProject);

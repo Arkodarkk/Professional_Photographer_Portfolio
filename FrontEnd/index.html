@@ -108,7 +108,7 @@
 				</div>
 			</div>
 			<div class="modal-content add-work hidden">
-				<span class="back">&#8592;</span>
+				<span class="back"><i class='bx bx-left-arrow-alt'></i></span>
 				<span class="close">&times;</span>
 				<h2>Ajout photo</h2>
 				<div id="add-pic-container">
@@ -118,6 +118,26 @@
 							<label for="uploadfile" class="label-file"> + Ajouter photo</label>
 							<input type="file" name="uploadfile" id="uploadfile" accept="image/png, image/jpg" size="4194304">
 							<p>jpg, png : 4mo max</p>
+						</div>
+					</div>
+					<div id="image-preview" class="hidden">
+							
+					</div>
+				</div>
+				<div id="form-wrapper">
+					<div id="work-title">
+						<label for="choose-title" id="label-pic-title">Titre</label>
+						<input type="text" name="choose-title" id="input-pic-title">
+					</div>
+					<div class="cat-wrapper">
+						<h2>Catégorie</h2>
+						<div class="select-btn">
+							<span id="catSelected"></span>
+							<i class='bx bx-chevron-down' ></i>
+						</div>
+						<div class="select-content">
+							<ul class="select-options">
+							</ul>
 						</div>
 					</div>
 				</div>
