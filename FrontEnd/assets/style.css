@@ -304,6 +304,7 @@ nav li img:hover {
 
 .gallery img {
 	width: 100%;
+	max-height: 406px;
 	margin-bottom: 5px;
 }
 
@@ -469,6 +470,7 @@ input[type="submit"]:active {
  #gallery-modal figure {
 	position: relative;
 	cursor: pointer;
+	object-fit: cover;
  }
 
  /* Postionne les icônes de gestion des travaux en haut à droite de chaque image */
@@ -505,6 +507,7 @@ input[type="submit"]:active {
 
  #gallery-modal img {
 	width: 100%;
+	max-height: 105px;
  }
 
  .modal-buttons {
