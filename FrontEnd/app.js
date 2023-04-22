@@ -31,7 +31,7 @@ const apiWorksUrl = "http://localhost:5678/api/works";
 // Récupération de l'url de l'API pour accéder aux catégories
 const apiCatUrl = "http://localhost:5678/api/categories";
 
-// Fonction pour afficher les travaux en fonction de leur catégorie
+// Affiche les travaux en fonction de leur catégorie
 const displayWorks = function (categoryId = null) {
     fetch(apiWorksUrl)
         .then(response => response.json())
@@ -64,9 +64,10 @@ filterButtons.forEach(button => {
     });
 });
 
-// Afficher tous les travaux au chargement de la page
+// Affiche tous les travaux au chargement de la page sur la page d'accueil et dans la modale
 window.addEventListener("load", () => {
 displayWorks();
+displayWorksInModal();
 });
 
 //------------------------------------ Modale -----------------------------------------
@@ -116,8 +117,10 @@ function resetFieldsAddWork() {
   catSelected.textContent = '';
   imageInput.value = '';
   const img = imagePreview.querySelector("img");
-  URL.revokeObjectURL(img.src);
-  img.src = ""; // Efface l'image de prévisualisation
+  if (img) {
+    URL.revokeObjectURL(img.src);
+    img.src = ""; // Efface l'image de prévisualisation
+  }
   newPicWrapper.classList.remove("hidden"); // Affiche la box de l'input file
   imagePreview.classList.add("hidden"); // Masque la box de prévisualisation
 }
@@ -181,9 +184,6 @@ const displayWorksInModal = function (categoryId = null) {
       });
 };
 
-// Affiche tous les travaux dans la modale au chargement de la page
-displayWorksInModal();
-
 //Affiche l'icône de déplacement au survol de la souris d'une image
 galleryModal.addEventListener('mouseover', function(event) {
   const figure = event.target.closest('figure');
@@ -222,7 +222,6 @@ galleryModal.addEventListener('click', function(event) {
       }
     })
     .then(function(response) {
-      console.log(response);
       if (response.ok) {
         // Affiche les projets mis à jour dans la modale
         displayWorksInModal();
@@ -237,6 +236,34 @@ galleryModal.addEventListener('click', function(event) {
     });
   }
 });
+
+// Suppression de tous les projets au clic sur le bouton #delete-gallery
+document.getElementById("delete-gallery").addEventListener("click", function(event) {
+  const allFigures = galleryModal.querySelectorAll("figure");
+  allFigures.forEach(figure => {
+    const workId = figure.dataset.id;
+
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(function(response) {
+      if (response.ok) {
+        // Affiche les projets mis à jour dans la modale
+        displayWorksInModal();
+        // Affiche les projets mis à jour sur la page d'accueil
+        displayWorks();
+      } else {
+        console.error('Erreur lors de la suppression de l\'élément');
+      }
+    })
+    .catch(function(error) {
+      console.error('Erreur lors de la suppression de l\'élément', error);
+    });
+  })
+})
 
 //---------------------------------- Ajout projet ----------------------------
 
@@ -259,7 +286,7 @@ function addCategory() {
   });
 }
 
-// Récupère via l'API les données pour remplir les tableaux catObjects et categories
+// Récupère via l'API les données pour remplir les tableaux [catObjects] et [categories]
 fetch(apiCatUrl)
   .then(response => response.json())
   .then(data => {
@@ -367,9 +394,7 @@ function uploadProject() {
   fetch(apiWorksUrl, {
     method: 'POST',
     body: formData,
-    // body: JSON.stringify(data),
     headers: {
-      // 'Content-Type': "multipart/form-data",
       'Authorization': `Bearer ${token}`
     }
   })
