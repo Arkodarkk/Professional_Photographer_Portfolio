@@ -6,13 +6,19 @@ FORM.addEventListener("submit", (e) => {
    e.preventDefault();
 
    // Récupération des valeurs des inputs du formulaire
-   let emailLogin = document.getElementById("email").value;
-   let passwordLogin = document.getElementById("password").value;
+   let email = document.getElementById("email").value;
+   let password = document.getElementById("password").value;
+
+   // Vérification si les champs email et password ont été remplis
+   if (!email || !password) {
+      alert("Veuillez remplir les champs Email et Mot de passe pour vous connecter.");
+      return;
+   }
 
    // Création de l'objet qui constituera le body du fetch
    let payload = {
-      email: emailLogin,
-      password: passwordLogin
+      email: email,
+      password: password
    };
 
    // Envoi des données du formulaire vers l'API pour récupérer le token
