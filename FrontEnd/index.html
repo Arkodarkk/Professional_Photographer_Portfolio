@@ -12,10 +12,11 @@
 	<meta name="description" content="">
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="shortcut icon" href="./assets/icons/shelf.png" type="image/x-icon">
 </head>
 
 <body>
-<!--------------------------------- Barre d'administration --------------------------------->
+	<!--------------------------------- Barre d'administration --------------------------------->
 	<section class="admin-bar admin hidden">
 		<div class="edition-group">
 			<i class='bx bx-edit'></i>
@@ -25,7 +26,7 @@
 			<p>publier les changements</p>
 		</div>
 	</section>
-<!--------------------------------- Header --------------------------------->
+	<!--------------------------------- Header --------------------------------->
 	<header>
 		<h1>Sophie Bluel <span>ARCHITECTE D'INTÉRIEUR</span></h1>
 		<nav>
@@ -40,7 +41,7 @@
 		</nav>
 	</header>
 	<main>
-<!--------------------------------- Présentation de l'architecte --------------------------------->
+		<!--------------------------------- Présentation de l'architecte --------------------------------->
 		<section id="introduction">
 			<div class="picture-container">
 				<figure>
@@ -62,7 +63,7 @@
 					décorateur(trice).</p>
 			</article>
 		</section>
-<!--------------------------------- Galerie des travaux --------------------------------->
+		<!--------------------------------- Galerie des travaux --------------------------------->
 		<section id="portfolio">
 			<div class="mes-projets">
 				<h2>Mes Projets</h2>
@@ -80,7 +81,7 @@
 			<div class="gallery">
 			</div>
 		</section>
-<!--------------------------------- Formulaire de contact --------------------------------->
+		<!--------------------------------- Formulaire de contact --------------------------------->
 		<section id="contact">
 			<h2>Contact</h2>
 			<p>Vous avez un projet ? Discutons-en !</p>
@@ -94,7 +95,7 @@
 				<input type="submit" value="Envoyer">
 			</form>
 		</section>
-<!--------------------------------- Fenêtre modale --------------------------------->
+		<!--------------------------------- Fenêtre modale --------------------------------->
 		<section id="work-modal" class="modal">
 			<div class="modal-content delete-work">
 				<span class="close">&times;</span>
@@ -116,12 +117,13 @@
 						<div class="image-icon"><i class='bx bx-image'></i></div>
 						<div class="input-file-container">
 							<label for="uploadfile" class="label-file"> + Ajouter photo</label>
-							<input type="file" name="uploadfile" id="uploadfile" accept="image/png, image/jpg, image/jpeg, image/webp" size="4194304">
+							<input type="file" name="uploadfile" id="uploadfile"
+								accept="image/png, image/jpg, image/jpeg, image/webp" size="4194304">
 							<p>jpg, png : 4mo max</p>
 						</div>
 					</div>
 					<div id="image-preview" class="hidden">
-							
+
 					</div>
 				</div>
 				<div id="form-wrapper">
@@ -133,7 +135,7 @@
 						<h2>Catégorie</h2>
 						<div class="select-btn">
 							<span id="catSelected"></span>
-							<i class='bx bx-chevron-down' ></i>
+							<i class='bx bx-chevron-down'></i>
 						</div>
 						<div class="select-content">
 							<ul class="select-options">
@@ -146,12 +148,12 @@
 				</div>
 			</div>
 		</section>
-<!--------------------------------- Popup --------------------------------->		
+		<!--------------------------------- Popup upload réussi --------------------------------->
 		<div class="upload-success-popup hidden" id="popup">
 			<p><i class='bx bx-check'></i> Le projet a été enregistré avec succès !</p>
 		</div>
 	</main>
-<!--------------------------------- Footer --------------------------------->
+	<!--------------------------------- Footer --------------------------------->
 	<footer>
 		<nav>
 			<ul>
