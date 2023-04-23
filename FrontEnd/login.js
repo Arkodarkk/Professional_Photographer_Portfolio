@@ -31,9 +31,21 @@ FORM.addEventListener("submit", (e) => {
    })
    .then((response) => {
       if (!response.ok) {// Test validité des identifiants renseignés par l'utilisateur
+         // Affiche popup de mauvais identifiants
+         const popup = document.getElementById("wrong-popup");
+         popup.classList.remove("hidden");
+         // Écouteurs d'événement pour cacher la popup
+         document.addEventListener('click', hidePopup);
+         document.addEventListener('keydown', hidePopup);
+         function hidePopup() {
+         popup.classList.add('hidden');
+         document.removeEventListener('click', hidePopup);
+         document.removeEventListener('keydown', hidePopup);
+         }
          throw new Error("Email ou mot de passe incorrect");
-      }
+      } else {
       return response.json();
+      }
    })
    .then((data) => {
          // Stockage du token dans le session storage
@@ -42,6 +54,6 @@ FORM.addEventListener("submit", (e) => {
    })
    .catch((error) => {
       // Affichage de l'alerte en cas d'erreur
-      alert(error.message);
+      console.log(error.message);
    });
 });
