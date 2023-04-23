@@ -52,7 +52,7 @@ const displayWorks = function (categoryId = null) {
         });
 };
 
-// Ajout d'un addListener sur chaque bouton de catégorie
+// Ajout d'un eventListener sur chaque bouton de catégorie
 filterButtons.forEach(button => {
     button.addEventListener("click", function() {
         filterButtons.forEach(button => button.classList.remove("active"));
@@ -102,8 +102,7 @@ const displayModalAddWork = () => {
   modalAddWork.classList.remove('hidden');
 }
 
-
-// affiche la modale et applique un background semi-transparent sur les élements derrière
+// Affiche la modale et applique un background semi-transparent sur le reste de la page
 editWork.addEventListener('click', function() {
   modal.style.display = 'block';
   setTimeout(function() {
@@ -400,9 +399,21 @@ function uploadProject() {
   })
   .then(response => {
     if (response.ok) {
-      displayWorks();
-      displayWorksInModal();
-      closeModal();
+      displayWorks(); // Affiche les travaux sur la page d'accueil
+      displayWorksInModal(); // Affiche les travaux dans la modale
+      closeModal(); // Ferme la modale
+
+      // Affiche popup de confirmation d'upload
+      const popup = document.getElementById("popup");
+      popup.classList.remove("hidden");
+      // Écouteurs d'événement pour cacher la popup
+      document.addEventListener('click', hidePopup);
+      document.addEventListener('keydown', hidePopup);
+      function hidePopup() {
+        popup.classList.add('hidden');
+        document.removeEventListener('click', hidePopup);
+        document.removeEventListener('keydown', hidePopup);
+      }
     } else {
       console.error('Erreur lors de la sauvegarde du projet');
     }
