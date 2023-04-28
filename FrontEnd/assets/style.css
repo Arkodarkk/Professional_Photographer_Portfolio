@@ -169,7 +169,7 @@ nav li img {
 }
 
 nav li img:hover {
-	scale: 1.2;
+	transform: scale(1.2);
 }
 
 /*--------------------------------- Introduction ---------------------------------  */
