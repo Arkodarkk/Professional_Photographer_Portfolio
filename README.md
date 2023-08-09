@@ -34,7 +34,6 @@ PhotoFolio is a dynamic web portfolio developed for a professional photographer.
 ![Login page](./FrontEnd/assets/screenshots/SophieBluel_Login_page.webp)
 ![Admin page](./FrontEnd/assets/screenshots/SophieBluel_Admin_page.webp)
 ![Modal](./FrontEnd/assets/screenshots/SophieBluel_Modal.webp)
-<!-- Add more screenshots if necessary -->
 
 ## Usage
 
@@ -48,7 +47,8 @@ PhotoFolio is a dynamic web portfolio developed for a professional photographer.
    - If not already installed, install live-server: `npm install -g live-server`
    - Start the frontend live server: `live-server`
 
-3. To login and see the admin panel and use the modal to interact with the pictures here the details :
+3. **Login**
+   To login and see the admin panel and use the modal to interact with the pictures here the details :
    - email: sophie.bluel@test.tld
    - password: S0phie 
 
